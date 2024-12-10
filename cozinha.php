@@ -7,8 +7,14 @@ if (!isset($_SESSION['dono_logado'])) {
 
 include 'includes/db.php';
 
-$query = "SELECT * FROM pedidos";
+// Consulta os pedidos no banco de dados
+$query = "SELECT pedidos.id, pedidos.cliente_nome, pedidos.mesa, pedidos.total, pedidos.status 
+          FROM pedidos";
 $result = $conn->query($query);
+
+if (!$result) {
+    die("Erro ao buscar os pedidos: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +31,8 @@ $result = $conn->query($query);
             <tr>
                 <th>ID</th>
                 <th>Cliente</th>
-                <th>Imagem</th>
+                <th>Mesa</th>
+                <th>Itens</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Ação</th>
@@ -36,14 +43,34 @@ $result = $conn->query($query);
                 <tr>
                     <td><?php echo $row['id']; ?></td>
                     <td><?php echo htmlspecialchars($row['cliente_nome']); ?></td>
+                    <td><?php echo htmlspecialchars($row['mesa']); ?></td>
                     <td>
-                        <img src="<?php echo htmlspecialchars($row['imagem_produto']); ?>" alt="Imagem do Prato" style="width: 50px; height: auto;">
+                        <?php
+                        // Busca os itens relacionados ao pedido na tabela pedido_itens
+                        $pedido_id = $row['id'];
+                        $query_itens = "SELECT nome, imagem FROM pedido_itens WHERE pedido_id = ?";
+                        $stmt_itens = $conn->prepare($query_itens);
+                        $stmt_itens->bind_param('i', $pedido_id);
+                        $stmt_itens->execute();
+                        $result_itens = $stmt_itens->get_result();
+
+                        if ($result_itens->num_rows > 0) {
+                            while ($item = $result_itens->fetch_assoc()) {
+                                $imagem = !empty($item['imagem']) ? htmlspecialchars($item['imagem']) : 'assets/img/imagem_padrao.jpg';
+                                echo "<div style='margin-bottom: 10px;'>
+                                        <img src='$imagem' alt='Imagem do Item' style='width: 50px; height: auto; margin-right: 10px;'>
+                                        " . htmlspecialchars($item['nome']) . "
+                                      </div>";
+                            }
+                        } else {
+                            echo "Nenhum item encontrado.";
+                        }
+                        ?>
                     </td>
                     <td>R$ <?php echo number_format($row['total'], 2, ',', '.'); ?></td>
                     <td><?php echo htmlspecialchars($row['status']); ?></td>
                     <td>
-                    <form method="POST" action="/cardapio/actions/atualizar_pedido.php">
-
+                        <form method="POST" action="/cardapio/actions/atualizar_pedido.php">
                             <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                             <select name="status">
                                 <option value="Pendente" <?php echo $row['status'] === 'Pendente' ? 'selected' : ''; ?>>Pendente</option>
