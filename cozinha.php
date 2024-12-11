@@ -7,15 +7,15 @@ if (!isset($_SESSION['dono_logado'])) {
 
 include 'includes/db.php';
 
-// Consulta os pedidos no banco de dados
-$query = "SELECT pedidos.id, pedidos.cliente_nome, pedidos.mesa, pedidos.total, pedidos.status 
-          FROM pedidos";
+// Consulta os pedidos no banco de dados, excluindo os que estão "Pronto"
+$query = "SELECT * FROM pedidos WHERE status != 'Pronto'";
 $result = $conn->query($query);
 
 if (!$result) {
     die("Erro ao buscar os pedidos: " . $conn->error);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
