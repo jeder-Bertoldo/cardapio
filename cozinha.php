@@ -7,7 +7,7 @@ if (!isset($_SESSION['dono_logado'])) {
 
 include 'includes/db.php';
 
-// Consulta os pedidos no banco de dados, excluindo os que estão "Pronto"
+// Consulta pedidos (exceto os com status "Pronto")
 $query = "SELECT * FROM pedidos WHERE status != 'Pronto'";
 $result = $conn->query($query);
 
@@ -16,37 +16,27 @@ if (!$result) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos - Cozinha</title>
+    <title>Cozinha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/cardapio/assets/css/cozinha.css">
 </head>
 <body>
-    <h1>Pedidos na Cozinha</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Mesa</th>
-                <th>Itens</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container">
+        <h1><i class="fas fa-utensils"></i> Pedidos na Cozinha</h1>
+        <div class="pedidos">
             <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?php echo $row['id']; ?></td>
-                    <td><?php echo htmlspecialchars($row['cliente_nome']); ?></td>
-                    <td><?php echo htmlspecialchars($row['mesa']); ?></td>
-                    <td>
+                <div class="pedido-card">
+                    <h2>Pedido #<?php echo $row['id']; ?></h2>
+                    <p><strong>Cliente:</strong> <?php echo htmlspecialchars($row['cliente_nome']); ?></p>
+                    <p><strong>Mesa:</strong> <?php echo htmlspecialchars($row['mesa']); ?></p>
+                    <p><strong>Total:</strong> R$ <?php echo number_format($row['total'], 2, ',', '.'); ?></p>
+                    <div class="itens">
                         <?php
-                        // Busca os itens relacionados ao pedido na tabela pedido_itens
                         $pedido_id = $row['id'];
                         $query_itens = "SELECT nome, imagem FROM pedido_itens WHERE pedido_id = ?";
                         $stmt_itens = $conn->prepare($query_itens);
@@ -54,35 +44,25 @@ if (!$result) {
                         $stmt_itens->execute();
                         $result_itens = $stmt_itens->get_result();
 
-                        if ($result_itens->num_rows > 0) {
-                            while ($item = $result_itens->fetch_assoc()) {
-                                $imagem = !empty($item['imagem']) ? htmlspecialchars($item['imagem']) : 'assets/img/imagem_padrao.jpg';
-                                echo "<div style='margin-bottom: 10px;'>
-                                        <img src='$imagem' alt='Imagem do Item' style='width: 50px; height: auto; margin-right: 10px;'>
-                                        " . htmlspecialchars($item['nome']) . "
-                                      </div>";
-                            }
-                        } else {
-                            echo "Nenhum item encontrado.";
-                        }
-                        ?>
-                    </td>
-                    <td>R$ <?php echo number_format($row['total'], 2, ',', '.'); ?></td>
-                    <td><?php echo htmlspecialchars($row['status']); ?></td>
-                    <td>
-                        <form method="POST" action="/cardapio/actions/atualizar_pedido.php">
-                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                            <select name="status">
-                                <option value="Pendente" <?php echo $row['status'] === 'Pendente' ? 'selected' : ''; ?>>Pendente</option>
-                                <option value="Preparando" <?php echo $row['status'] === 'Preparando' ? 'selected' : ''; ?>>Preparando</option>
-                                <option value="Pronto" <?php echo $row['status'] === 'Pronto' ? 'selected' : ''; ?>>Pronto</option>
-                            </select>
-                            <button type="submit">Atualizar</button>
-                        </form>
-                    </td>
-                </tr>
+                        while ($item = $result_itens->fetch_assoc()): ?>
+                            <div class="item">
+                                <img src="<?php echo htmlspecialchars($item['imagem']); ?>" alt="Imagem do Item">
+                                <span><?php echo htmlspecialchars($item['nome']); ?></span>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
+                    <form method="POST" action="/cardapio/actions/atualizar_pedido.php">
+                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                        <select name="status">
+                            <option value="Pendente" <?php echo $row['status'] === 'Pendente' ? 'selected' : ''; ?>>Pendente</option>
+                            <option value="Preparando" <?php echo $row['status'] === 'Preparando' ? 'selected' : ''; ?>>Preparando</option>
+                            <option value="Pronto" <?php echo $row['status'] === 'Pronto' ? 'selected' : ''; ?>>Pronto</option>
+                        </select>
+                        <button type="submit">Atualizar</button>
+                    </form>
+                </div>
             <?php endwhile; ?>
-        </tbody>
-    </table>
+        </div>
+    </div>
 </body>
 </html>
