@@ -15,19 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        // Verifica a senha usando password_verify
         if (password_verify($password, $user['senha'])) {
             $_SESSION['dono_logado'] = true;
-            $_SESSION['usuario_id'] = $user['id'];
             $_SESSION['usuario_nome'] = $user['nome'];
-
             header('Location: admin/dashboard.php');
             exit;
         } else {
-            $erro = "Usuário ou senha inválidos.";
+            $erro = "Senha inválida.";
         }
     } else {
-        $erro = "Usuário ou senha inválidos.";
+        $erro = "Usuário não encontrado.";
     }
 }
 ?>
@@ -37,24 +34,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Dono do Restaurante</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Login do Dono</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Login do Dono</h1>
-        <?php if (isset($erro)): ?>
-            <p style="color: red;"><?php echo $erro; ?></p>
-        <?php endif; ?>
-        <form method="POST" action="login.php">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <br>
-            <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
-            <br>
-            <button type="submit">Entrar</button>
-        </form>
+        <div class="login-box">
+            <h1>Login do Dono</h1>
+            <?php if (isset($erro)): ?>
+                <p class="error"><?php echo $erro; ?></p>
+            <?php endif; ?>
+            <form method="POST" action="login.php">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <div class="input-group">
+                        <i class="fas fa-user icon"></i>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <div class="input-group">
+                        <i class="fas fa-key icon"></i>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                </div>
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
