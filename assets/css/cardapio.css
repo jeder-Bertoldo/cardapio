@@ -35,33 +35,23 @@ h1 {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
+
 .card img {
-    width: 100%; /* A imagem ocupará toda a largura do contêiner */
-    height: auto; /* Mantém a proporção da imagem */
-    max-height: 200px; /* Define uma altura máxima para uniformidade */
-    object-fit: contain; /* Evita cortes e ajusta a imagem ao contêiner */
-    border-radius: 5px; /* Bordas arredondadas para estética */
-}
-
-
-.image-container {
     width: 100%;
-    max-height: 250px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9;
-}
-
-.image-container img {
-    max-width: 100%;
-    max-height: 100%;
+    height: 200px; /* Define uma altura padrão */
+    object-fit: contain; /* Ajusta a imagem ao contêiner sem cortar */
+    background-color: #f9f9f9; /* Fundo para imagens transparentes */
+    border-radius: 10px; /* Apenas para o topo da imagem */
 }
 
 .content {
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .content h2 {
@@ -105,8 +95,90 @@ button:hover {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.cart h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
 ul {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+.cart-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.cart-summary p {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.finalize-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.finalize-button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+    .cart {
+        padding: 15px;
+    }
+
+    .cart-summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .finalize-button {
+        width: 100%;
+    }
 }

@@ -11,11 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param('ssd', $cliente_nome, $imagem_produto, $total);
 
     if ($stmt->execute()) {
-        echo "Pedido registrado com sucesso!";
-        header('Location: ../index.php');
+        header('Location: ../cardapio.php?status=success');
         exit;
     } else {
-        echo "Erro ao registrar o pedido.";
+        header('Location: ../cardapio.php?status=error');
+        exit;
     }
+    
 }
 ?>
