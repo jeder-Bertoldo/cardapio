@@ -17,19 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $caminho_imagem = null; // Caminho padrão (sem imagem)
 
     if ($imagem['error'] === UPLOAD_ERR_OK) {
-        $nome_imagem = uniqid() . '-' . basename($imagem['name']); // Nome único para evitar conflitos
+        $nome_imagem = uniqid() . '-' . basename($imagem['name']);
         $diretorio_destino = '../assets/img/';
         $caminho_imagem = $diretorio_destino . $nome_imagem;
 
-        // Move o arquivo para o diretório de destino
         if (!move_uploaded_file($imagem['tmp_name'], $caminho_imagem)) {
             $erro = "Erro ao salvar a imagem.";
         } else {
-            $caminho_imagem = 'assets/img/' . $nome_imagem; // Caminho relativo para armazenar no banco
+            $caminho_imagem = 'assets/img/' . $nome_imagem;
         }
     }
 
-    // Inserir no banco de dados
     if (!isset($erro)) {
         $sql = "INSERT INTO pratos (nome, descricao, preco, imagem) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
@@ -51,27 +49,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Prato</title>
+    <link rel="stylesheet" href="../assets/css/adicionar_prato.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Adicionar Novo Prato</h1>
+        <h1><i class="fas fa-plus-circle"></i> Adicionar Novo Prato</h1>
         <?php if (isset($erro)): ?>
-            <p style="color: red;"><?php echo $erro; ?></p>
+            <p class="error"><?php echo $erro; ?></p>
         <?php endif; ?>
-        <form method="POST" enctype="multipart/form-data">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-            <br>
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao"></textarea>
-            <br>
-            <label for="preco">Preço:</label>
-            <input type="number" step="0.01" id="preco" name="preco" required>
-            <br>
-            <label for="imagem">Imagem:</label>
-            <input type="file" id="imagem" name="imagem" accept="image/*">
-            <br>
-            <button type="submit">Adicionar</button>
+        <form method="POST" enctype="multipart/form-data" class="form-container">
+            <div class="form-group">
+                <label for="nome"><i class="fas fa-utensils"></i> Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao"><i class="fas fa-align-left"></i> Descrição:</label>
+                <textarea id="descricao" name="descricao"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="preco"><i class="fas fa-dollar-sign"></i> Preço:</label>
+                <input type="number" step="0.01" id="preco" name="preco" required>
+            </div>
+            <div class="form-group">
+                <label for="imagem"><i class="fas fa-image"></i> Imagem:</label>
+                <input type="file" id="imagem" name="imagem" accept="image/*">
+            </div>
+            <button type="submit" class="btn-submit"><i class="fas fa-check"></i> Adicionar</button>
         </form>
     </div>
 </body>
