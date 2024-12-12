@@ -5,6 +5,13 @@ function adicionarAoCarrinho(nome, preco, imagem) {
     carrinho.push({ nome, preco, imagem });
     total += parseFloat(preco);
     atualizarCarrinho();
+    Swal.fire({
+        title: 'Adicionado ao Carrinho',
+        text: `${nome} foi adicionado ao seu carrinho.`,
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+    });
 }
 
 function atualizarCarrinho() {
@@ -25,7 +32,12 @@ function finalizarPedido() {
     const numeroMesa = document.getElementById('numeroMesa').value;
 
     if (!nomeCliente || !numeroMesa) {
-        alert("Por favor, preencha todos os campos!");
+        Swal.fire({
+            title: 'Erro',
+            text: 'Por favor, preencha todos os campos!',
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
         return;
     }
 
@@ -46,10 +58,24 @@ function finalizarPedido() {
     })
         .then(response => response.text())
         .then(data => {
-            alert(data);
-            carrinho = [];
-            total = 0;
-            atualizarCarrinho();
+            Swal.fire({
+                title: 'Pedido Finalizado',
+                text: data,
+                icon: 'success',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                carrinho = [];
+                total = 0;
+                atualizarCarrinho();
+            });
         })
-        .catch(error => console.error('Erro:', error));
+        .catch(error => {
+            Swal.fire({
+                title: 'Erro',
+                text: 'Houve um problema ao processar seu pedido. Tente novamente.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+            console.error('Erro:', error);
+        });
 }

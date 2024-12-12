@@ -39,34 +39,31 @@ h1 {
 }
 
 .card img {
-    width: 100%;
-    height: 200px; /* Define uma altura padrão */
-    object-fit: contain; /* Ajusta a imagem ao contêiner sem cortar */
-    background-color: #f9f9f9; /* Fundo para imagens transparentes */
-    border-radius: 10px; /* Apenas para o topo da imagem */
+    width: 100%; /* A largura ocupará todo o espaço do contêiner */
+    height: 200px; /* Define uma altura fixa para todas as imagens */
+    object-fit: cover; /* Ajusta a imagem para preencher o espaço sem distorção */
+    border-radius: 8px; /* Bordas arredondadas para um visual mais agradável */
+    background-color: aliceblue; /* Cor de fundo caso a imagem não preencha completamente */
 }
 
-.content {
+
+.card .content {
     padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
 }
 
-.content h2 {
+.card .content h2 {
     font-size: 1.2rem;
     margin-bottom: 10px;
     color: #333;
 }
 
-.content p {
+.card .content p {
     margin: 5px 0;
     color: #555;
     font-size: 0.9rem;
 }
 
-.price {
+.card .content .price {
     font-weight: bold;
     color: #007bff;
     margin-top: 10px;
