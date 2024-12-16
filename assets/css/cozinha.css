@@ -13,7 +13,7 @@ body {
 
 h1 {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 20px;
     color: #003ee7da;
     display: flex;
@@ -27,7 +27,7 @@ h1 i {
 
 .pedidos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Mais responsivo para telas pequenas */
     gap: 20px;
 }
 
@@ -36,13 +36,22 @@ h1 i {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    display: flex;
+    flex-direction: column;
     text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pedido-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 .pedido-card h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-bottom: 10px;
     color: #333;
+    text-align: center;
 }
 
 .pedido-card p {
@@ -56,6 +65,7 @@ h1 i {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    justify-content: center; /* Centraliza os itens */
 }
 
 .item {
@@ -67,23 +77,24 @@ h1 i {
     padding: 10px 15px;
     border-radius: 5px;
     text-align: center;     
+    transition: transform 0.2s ease;
+}
+
+.item:hover {
+    transform: scale(1.05); /* Adiciona leve zoom no hover */
 }
 
 .item img {
-    width: 80px;
-    height: 80px;
-    border-radius: 5px;
+    width: 150px; /* Tamanho fixo para consistência */
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover; /* Ajusta a imagem ao container */
 }
 
 .item span {
     font-size: 1rem;
     color: #333;
-}
-
-.item img {
-    width: 250px;
-    height: 250px;
-    border-radius: 10px;
+    font-weight: bold;
 }
 
 select, button {
@@ -93,6 +104,13 @@ select, button {
     border-radius: 5px;
     border: 1px solid #ddd;
     font-size: 1rem;
+    outline: none;
+}
+
+select {
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
 }
 
 button {
@@ -100,9 +118,37 @@ button {
     color: white;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
     background-color: #0056b3;
+    transform: translateY(-2px); /* Leve elevação no hover */
+}
+
+.no-orders {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 20px;
+}
+
+/* Melhorias para telas menores */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .pedido-card {
+        padding: 15px;
+    }
+
+    .item img {
+        width: 120px;
+        height: 120px;
+    }
+
+    select, button {
+        font-size: 0.9rem;
+    }
 }

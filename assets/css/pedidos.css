@@ -96,12 +96,12 @@ h1 {
 }
 
 table {
-    width: 100%;
+    width: 95%;
     border-collapse: collapse;
 }
 
 table th, table td {
-    padding: 12px;
+    padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
