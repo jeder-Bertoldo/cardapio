@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="imagem"><i class="fas fa-image"></i> Imagem:</label>
-                <input type="file" id="imagem" name="imagem" accept="image/*">
+                <input type="file" id="imagem" name="imagem" accept="image/*" capture="environment" required>
             </div>
             <button type="submit" class="btn-submit"><i class="fas fa-check"></i> Adicionar</button>
         </form>
