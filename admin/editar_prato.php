@@ -23,9 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $descricao = $_POST['descricao'];
     $preco = $_POST['preco'];
 
-    // Configuração para upload de imagem
     $imagem = $_FILES['imagem'];
-    $caminho_imagem = $prato['imagem']; // Mantém a imagem atual se nenhuma nova for enviada
+    $caminho_imagem = $prato['imagem'];
 
     if ($imagem['error'] === UPLOAD_ERR_OK) {
         $nome_imagem = uniqid() . '-' . basename($imagem['name']);
@@ -33,13 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $caminho_imagem_novo = $diretorio_destino . $nome_imagem;
 
         if (move_uploaded_file($imagem['tmp_name'], $caminho_imagem_novo)) {
-            $caminho_imagem = 'assets/img/' . $nome_imagem; // Atualiza o caminho no banco
+            $caminho_imagem = 'assets/img/' . $nome_imagem;
         } else {
             $erro = "Erro ao salvar a nova imagem.";
         }
     }
 
-    // Atualizar no banco de dados
     if (!isset($erro)) {
         $sql = "UPDATE pratos SET nome = ?, descricao = ?, preco = ?, imagem = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
@@ -61,28 +59,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Prato</title>
+    <link rel="stylesheet" href="../assets/css/editar_prato.css">
 </head>
 <body>
     <div class="container">
-        <h1>Editar Prato</h1>
+        <h1 class="title">Editar Prato</h1>
         <?php if (isset($erro)): ?>
-            <p style="color: red;"><?php echo $erro; ?></p>
+            <p class="error"><?php echo $erro; ?></p>
         <?php endif; ?>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" class="form">
             <input type="hidden" name="id" value="<?php echo $prato['id']; ?>">
+
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" value="<?php echo $prato['nome']; ?>" required>
-            <br>
+
             <label for="descricao">Descrição:</label>
             <textarea id="descricao" name="descricao"><?php echo $prato['descricao']; ?></textarea>
-            <br>
+
             <label for="preco">Preço:</label>
             <input type="number" step="0.01" id="preco" name="preco" value="<?php echo $prato['preco']; ?>" required>
-            <br>
-            <label for="imagem">Imagem:</label>
+
+            <label for="imagem">Imagem Atual:</label>
+            <div class="image-preview">
+                <img src="../<?php echo $prato['imagem']; ?>" alt="Imagem do Prato">
+            </div>
+
+            <label for="imagem">Nova Imagem (opcional):</label>
             <input type="file" id="imagem" name="imagem" accept="image/*">
-            <br>
-            <button type="submit">Salvar Alterações</button>
+
+            <button type="submit" class="btn">Salvar Alterações</button>
         </form>
     </div>
 </body>
