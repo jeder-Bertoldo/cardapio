@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Dez-2024 às 20:51
+-- Tempo de geração: 16-Dez-2024 às 21:50
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -42,8 +42,7 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id`, `cliente_nome`, `mesa`, `total`, `status`, `imagem`, `criado_em`) VALUES
-(1, 'jeder', 1, '100.00', 'Pronto', NULL, '2024-12-10 19:26:36'),
-(2, 'jeder', 8, '110.00', 'Pendente', NULL, '2024-12-10 19:44:13');
+(4, 'Jeder', 1, '30.00', '', NULL, '2024-12-16 20:50:03');
 
 -- --------------------------------------------------------
 
@@ -64,10 +63,7 @@ CREATE TABLE `pedido_itens` (
 --
 
 INSERT INTO `pedido_itens` (`id`, `pedido_id`, `nome`, `preco`, `imagem`) VALUES
-(1, 1, 'pizza', '50.00', 'assets/img/675895dc6ebd3-pizza-de-pepperoni-caseira-portal-minha-receita.jpg'),
-(2, 1, 'pizza', '50.00', 'assets/img/675895dc6ebd3-pizza-de-pepperoni-caseira-portal-minha-receita.jpg'),
-(3, 2, 'pizza', '60.00', 'assets/img/675899ff1d4cf-marguerita.jpg'),
-(4, 2, 'pizza', '50.00', 'assets/img/675895dc6ebd3-pizza-de-pepperoni-caseira-portal-minha-receita.jpg');
+(7, 4, 'Bife com farofa', '30.00', 'assets/img/676090a1dd362-bife-farrofa.jpg');
 
 -- --------------------------------------------------------
 
@@ -89,8 +85,10 @@ CREATE TABLE `pratos` (
 --
 
 INSERT INTO `pratos` (`id`, `nome`, `descricao`, `preco`, `imagem`, `criado_em`) VALUES
-(1, 'pizza', 'uma boa pizza', '50.00', 'assets/img/675895dc6ebd3-pizza-de-pepperoni-caseira-portal-minha-receita.jpg', '2024-12-10 19:26:20'),
-(2, 'pizza', 'marguerita', '60.00', 'assets/img/675899ff1d4cf-marguerita.jpg', '2024-12-10 19:43:59');
+(6, 'Bife com farofa', 'Bife com farofa molhada', '30.00', 'assets/img/676090a1dd362-bife-farrofa.jpg', '2024-12-16 20:42:09'),
+(7, 'frango com farofa', 'frango com farofa molhada', '30.00', 'assets/img/676090da13b02-frango com farofa.webp', '2024-12-16 20:43:06'),
+(8, 'Bife e creme holandÃªs', 'Um delicioso Bife e creme holandÃªs', '50.00', 'assets/img/676091d3c3ad5-bide-holandes.jpg', '2024-12-16 20:47:15'),
+(9, 'frango com creme de alho', 'frango com creme de alho', '50.00', 'assets/img/676092597428d-frago-alho.webp', '2024-12-16 20:49:29');
 
 -- --------------------------------------------------------
 
@@ -111,7 +109,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `criado_em`) VALUES
-(2, 'Dono do Restaurante', 'dono@email.com', '$2y$10$2C4x.ltpbII58y2OJKZr3e8SM/v.rTCVJHZ95S59JGRAizD2qDbYm', '2024-12-10 19:34:39');
+(1, 'professor', 'professor@email.com', '$2y$10$PlfMSFl.ioTc9rHLjeCeNOXcc7ULuJ7gBqYi8SCW8.RyIImteKLiq', '2024-12-16 20:36:50'),
+(2, 'jeder', 'dono@email.com', '$2y$10$2C4x.ltpbII58y2OJKZr3e8SM/v.rTCVJHZ95S59JGRAizD2qDbYm', '2024-12-10 19:34:39');
 
 --
 -- Índices para tabelas despejadas
@@ -151,25 +150,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `pedido_itens`
 --
 ALTER TABLE `pedido_itens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `pratos`
 --
 ALTER TABLE `pratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restrições para despejos de tabelas
