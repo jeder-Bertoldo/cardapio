@@ -28,6 +28,11 @@ if (!$result) {
 <body>
     <div class="container">
         <h1><i class="fas fa-utensils"></i> Pedidos na Cozinha</h1>
+        
+        <div class="top-button">
+    <a href="cardapio.php" class="btn-cardapio">Ir para o Cardápio</a>
+</div>
+
         <div class="pedidos">
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="pedido-card">

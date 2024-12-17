@@ -52,6 +52,10 @@ if (!$result) {
         <!-- Título do Cardápio -->
         <h1><i class="fas fa-utensils"></i> Cardápio</h1>
 
+        <div class="top-button">
+    <a href="cozinha.php" class="btn-cozinha">Ir para a Cozinha</a>
+</div>
+
         <!-- Grid de Pratos -->
         <div class="grid">
             <?php if ($result->num_rows > 0): ?>
