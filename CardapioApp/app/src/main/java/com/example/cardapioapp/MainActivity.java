@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setDomStorageEnabled(true);
 
         // Substitua pelo IP do servidor local
-        webView.loadUrl("http://172.16.1.90/cardapio/");
+        webView.loadUrl("http://192.168.1.15/cardapio/");
     }
 
     // Lida com o resultado do seletor de arquivos
